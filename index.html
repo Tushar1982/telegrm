@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For Manjushri</title>
+    <style>
+        /* All previous styles remain */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .content {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Animated Pop-up Styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 500px;
+            width: 80%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ALWOM Animation for YES */
+        @keyframes alwomYes {
+            0% {
+                transform: scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            30% {
+                transform: scale(1.1) rotate(5deg);
+            }
+            60% {
+                transform: scale(0.95) rotate(-3deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .alwom-yes {
+            animation: alwomYes 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        /* ALWOM Animation for NO */
+        @keyframes alwomNo {
+            0% {
+                transform: translateY(-50px) scale(0.8);
+                opacity: 0;
+                filter: blur(10px);
+            }
+            50% {
+                transform: translateY(10px) scale(1.05);
+                filter: blur(5px);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        .alwom-no {
+            animation: alwomNo 1.5s ease-out forwards;
+        }
+
+        /* Heart Rain for YES */
+        @keyframes heartRain {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .heart-rain {
+            position: absolute;
+            font-size: 24px;
+            color: #ff6b8b;
+            animation: heartRain 3s linear forwards;
+        }
+
+        /* YES Button Glow */
+        @keyframes glowYes {
+            0%, 100% { box-shadow: 0 0 20px #4CAF50; }
+            50% { box-shadow: 0 0 40px #4CAF50, 0 0 60px #4CAF50; }
+        }
+
+        .yes-btn {
+            animation: glowYes 2s infinite;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+        }
+
+        /* NO Button Pulse */
+        @keyframes pulseNo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .no-btn {
+            animation: pulseNo 2s infinite;
+            background: linear-gradient(45deg, #f44336, #FF9800);
+        }
+
+        .popup-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .popup-message {
+            font-size: 1.3em;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .close-btn {
+            padding: 12px 30px;
+            background: white;
+            color: #333;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        /* Question Section */
+        .question-box {
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            max-width: 500px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>For Manjushri ♥</h1>
+        
+        <div class="apology">
+            <h2>I'm Truly Sorry</h2>
+            <p>This website is my heartfelt apology...</p>
+        </div>
+
+        <img src="manjushri.jpeg" alt="A beautiful picture of Manjushri">
+
+        <div class="question-box">
+            <h2>A Question From My Heart</h2>
+            <p>Shri, do you love Tushar?</p>
+            
+            <div class="options">
+                <button class="btn yes-btn" onclick="showPopup('yes')">YES</button>
+                <button class="btn no-btn" onclick="showPopup('no')">NO</button>
+            </div>
+        </div>
+
+        <p class="final-message">You are loved, appreciated, and cherished.</p>
+    </div>
+
+    <!-- YES Pop-up -->
+    <div id="yesPopup" class="popup-overlay">
+        <div class="popup alwom-yes" id="yesPopupContent">
+            <h2 class="popup-title">💖 YES! 💖</h2>
+            <p class="popup-message">This makes me so happy! I'm sending a message to Tushar right now!</p>
+            <button class="close-btn" onclick="closePopup('yes')">Close</button>
+        </div>
+    </div>
+
+    <!-- NO Pop-up -->
+    <div id="noPopup" class="popup-overlay">
+        <div class="popup alwom-no" id="noPopupContent">
+            <h2 class="popup-title">💔 NO</h2>
+            <p class="popup-message">I respect your honesty. Tushar has been notified of your answer.</p>
+            <button class="close-btn" onclick="closePopup('no')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ SECURITY WARNING: These are visible in page source
+        const BOT_TOKEN = '7990474377:AAHzz0pxloojMV7T1e-ZV0supgJc8HVcpco';
+        const CHAT_ID = '6158712736';
+
+        function showPopup(answer) {
+            const popupId = answer === 'yes' ? 'yesPopup' : 'noPopup';
+            const popup = document.getElementById(popupId);
+            
+            // Create heart rain for YES
+            if (answer === 'yes') {
+                createHeartRain();
+            }
+            
+            // Show popup
+            popup.style.display = 'flex';
+            
+            // Send to Telegram
+            sendToTelegram(answer);
+        }
+
+        function closePopup(type) {
+            document.getElementById(type + 'Popup').style.display = 'none';
+        }
+
+        function createHeartRain() {
+            const hearts = ['💖', '❤️', '💕', '💓', '💗'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-rain';
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                    document.body.appendChild(heart);
+                    
+                    // Remove after animation
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 100);
+            }
+        }
+
+        function sendToTelegram(answer) {
+            const messages = {
+                yes: "🎉 AMAZING NEWS! Manjushri said YES! She loves Tushar! 💖",
+                no: "💔 Manjushri said NO to the question 'Do you love Tushar?'"
+            };
+            
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            const data = {
+                chat_id: CHAT_ID,
+                text: messages[answer],
+                parse_mode: 'HTML'
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Telegram response:', result);
+            })
+            .catch(error => {
+                console.error('Telegram error:', error);
+            });
+        }
+
+        // Close pop-up on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePopup('yes');
+                closePopup('no');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,328 +1,488 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>For Manjushri</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SONIC BOMB GLITCH</title>
     <style>
-        /* All previous styles remain */
-        body {
+        * {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+        }
+        
+        .sonic-bomb {
+            position: relative;
             text-align: center;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: white;
         }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        
+        .glitch-text {
+            font-size: 18vw;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #fff;
+            position: relative;
+            letter-spacing: 8px;
+            text-shadow: 
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px #fff,
+                0 0 40px #ff00ff,
+                0 0 70px #ff00ff,
+                0 0 80px #ff00ff;
+            animation: bomb-pulse 0.3s infinite alternate;
         }
-
-        .content {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            margin: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        
+        /* Multiple glitch layers for insane effect */
+        .glitch-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            pointer-events: none;
         }
-
-        /* Animated Pop-up Styles */
-        .popup-overlay {
-            display: none;
+        
+        .layer-1 {
+            animation: glitch-1 0.08s infinite;
+            color: #ff0000;
+            clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%);
+            z-index: 1;
+        }
+        
+        .layer-2 {
+            animation: glitch-2 0.06s infinite;
+            color: #00ffff;
+            clip-path: polygon(0 30%, 100% 30%, 100% 60%, 0 60%);
+            z-index: 2;
+        }
+        
+        .layer-3 {
+            animation: glitch-3 0.05s infinite;
+            color: #ffff00;
+            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+            z-index: 3;
+        }
+        
+        .layer-4 {
+            animation: glitch-4 0.04s infinite;
+            color: #ff00ff;
+            clip-path: polygon(0 0, 20% 0, 20% 100%, 0 100%);
+            z-index: 4;
+        }
+        
+        .layer-5 {
+            animation: glitch-5 0.03s infinite;
+            color: #00ff00;
+            clip-path: polygon(40% 0, 60% 0, 60% 100%, 40% 100%);
+            z-index: 5;
+        }
+        
+        .layer-6 {
+            animation: glitch-6 0.02s infinite;
+            color: #0000ff;
+            clip-path: polygon(80% 0, 100% 0, 100% 100%, 80% 100%);
+            z-index: 6;
+        }
+        
+        /* Sonic shockwave */
+        .shockwave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 0, 255, 0.8);
+            animation: shockwave 0.5s infinite;
+            pointer-events: none;
+        }
+        
+        /* Screen flash */
+        .screen-flash {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px;
-            border-radius: 25px;
-            text-align: center;
-            max-width: 500px;
-            width: 80%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ALWOM Animation for YES */
-        @keyframes alwomYes {
-            0% {
-                transform: scale(0.5) rotate(0deg);
-                opacity: 0;
-            }
-            30% {
-                transform: scale(1.1) rotate(5deg);
-            }
-            60% {
-                transform: scale(0.95) rotate(-3deg);
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        .alwom-yes {
-            animation: alwomYes 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-        }
-
-        /* ALWOM Animation for NO */
-        @keyframes alwomNo {
-            0% {
-                transform: translateY(-50px) scale(0.8);
-                opacity: 0;
-                filter: blur(10px);
-            }
-            50% {
-                transform: translateY(10px) scale(1.05);
-                filter: blur(5px);
-            }
-            100% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-                filter: blur(0);
-            }
-        }
-
-        .alwom-no {
-            animation: alwomNo 1.5s ease-out forwards;
-        }
-
-        /* Heart Rain for YES */
-        @keyframes heartRain {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-
-        .heart-rain {
-            position: absolute;
-            font-size: 24px;
-            color: #ff6b8b;
-            animation: heartRain 3s linear forwards;
-        }
-
-        /* YES Button Glow */
-        @keyframes glowYes {
-            0%, 100% { box-shadow: 0 0 20px #4CAF50; }
-            50% { box-shadow: 0 0 40px #4CAF50, 0 0 60px #4CAF50; }
-        }
-
-        .yes-btn {
-            animation: glowYes 2s infinite;
-            background: linear-gradient(45deg, #4CAF50, #8BC34A);
-        }
-
-        /* NO Button Pulse */
-        @keyframes pulseNo {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .no-btn {
-            animation: pulseNo 2s infinite;
-            background: linear-gradient(45deg, #f44336, #FF9800);
-        }
-
-        .popup-title {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .popup-message {
-            font-size: 1.3em;
-            line-height: 1.5;
-            margin-bottom: 30px;
-        }
-
-        .close-btn {
-            padding: 12px 30px;
             background: white;
-            color: #333;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
+            opacity: 0;
+            pointer-events: none;
+            animation: flash 0.2s infinite;
+            z-index: 1000;
         }
-
-        .close-btn:hover {
-            background: #f0f0f0;
-            transform: scale(1.05);
+        
+        /* CRT scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            );
+            background-size: 100% 4px;
+            animation: scan 0.1s linear infinite;
+            pointer-events: none;
+            z-index: 999;
         }
-
-        /* Question Section */
-        .question-box {
-            margin: 40px auto;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            max-width: 500px;
+        
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 998;
         }
-
-        .options {
+        
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 25px;
+            gap: 10px;
+            z-index: 1001;
         }
-
-        .btn {
-            padding: 15px 40px;
-            font-size: 1.3em;
-            border: none;
-            border-radius: 50px;
+        
+        .control-btn {
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ffff;
+            border: 2px solid #00ffff;
+            padding: 15px 25px;
+            font-size: 18px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s ease;
-            min-width: 120px;
-            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
         }
-
-        .btn:hover {
-            transform: translateY(-5px);
+        
+        .control-btn:hover {
+            background: #00ffff;
+            color: #000;
+            box-shadow: 0 0 20px #00ffff;
+        }
+        
+        /* INSANE ANIMATIONS */
+        @keyframes glitch-1 {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-5px, 2px); }
+            40% { transform: translate(3px, -3px); }
+            60% { transform: translate(-2px, 4px); }
+            80% { transform: translate(4px, -2px); }
+        }
+        
+        @keyframes glitch-2 {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(6px, -4px); }
+            50% { transform: translate(-3px, 5px); }
+            75% { transform: translate(2px, -3px); }
+        }
+        
+        @keyframes glitch-3 {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(-4px, -6px); }
+            66% { transform: translate(5px, 3px); }
+        }
+        
+        @keyframes glitch-4 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(8px, 0); }
+        }
+        
+        @keyframes glitch-5 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-6px, 0); }
+        }
+        
+        @keyframes glitch-6 {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(0, 7px); }
+            50% { transform: translate(0, -5px); }
+            75% { transform: translate(0, 4px); }
+        }
+        
+        @keyframes bomb-pulse {
+            0% { 
+                transform: scale(1);
+                text-shadow: 
+                    0 0 10px #fff,
+                    0 0 20px #fff,
+                    0 0 30px #fff,
+                    0 0 40px #ff00ff,
+                    0 0 70px #ff00ff,
+                    0 0 80px #ff00ff;
+            }
+            100% { 
+                transform: scale(1.1);
+                text-shadow: 
+                    0 0 15px #fff,
+                    0 0 25px #fff,
+                    0 0 35px #fff,
+                    0 0 50px #ff00ff,
+                    0 0 85px #ff00ff,
+                    0 0 100px #ff00ff;
+            }
+        }
+        
+        @keyframes shockwave {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 100vh;
+                height: 100vh;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes flash {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.3; }
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Disco mode */
+        .disco-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ffff00, #ff00ff, #00ffff);
+            background-size: 400% 400%;
+            animation: disco-bg 2s linear infinite;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @keyframes disco-bg {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
         }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h1>For Manjushri ♥</h1>
-        
-        <div class="apology">
-            <h2>I'm Truly Sorry</h2>
-            <p>This website is my heartfelt apology...</p>
-        </div>
-
-        <img src="manjushri.jpeg" alt="A beautiful picture of Manjushri">
-
-        <div class="question-box">
-            <h2>A Question From My Heart</h2>
-            <p>Shri, do you love Tushar?</p>
-            
-            <div class="options">
-                <button class="btn yes-btn" onclick="showPopup('yes')">YES</button>
-                <button class="btn no-btn" onclick="showPopup('no')">NO</button>
-            </div>
-        </div>
-
-        <p class="final-message">You are loved, appreciated, and cherished.</p>
+    <div class="sonic-bomb">
+        <div class="glitch-text">FUCK YOU</div>
+        <div class="glitch-layer layer-1">FUCK YOU</div>
+        <div class="glitch-layer layer-2">FUCK YOU</div>
+        <div class="glitch-layer layer-3">FUCK YOU</div>
+        <div class="glitch-layer layer-4">FUCK YOU</div>
+        <div class="glitch-layer layer-5">FUCK YOU</div>
+        <div class="glitch-layer layer-6">FUCK YOU</div>
     </div>
-
-    <!-- YES Pop-up -->
-    <div id="yesPopup" class="popup-overlay">
-        <div class="popup alwom-yes" id="yesPopupContent">
-            <h2 class="popup-title">💖 YES! 💖</h2>
-            <p class="popup-message">This makes me so happy! I'm sending a message to Tushar right now!</p>
-            <button class="close-btn" onclick="closePopup('yes')">Close</button>
-        </div>
-    </div>
-
-    <!-- NO Pop-up -->
-    <div id="noPopup" class="popup-overlay">
-        <div class="popup alwom-no" id="noPopupContent">
-            <h2 class="popup-title">💔 NO</h2>
-            <p class="popup-message">I respect your honesty. Tushar has been notified of your answer.</p>
-            <button class="close-btn" onclick="closePopup('no')">Close</button>
-        </div>
+    
+    <div class="shockwave"></div>
+    <div class="screen-flash"></div>
+    <div class="scanlines"></div>
+    <div class="disco-bg" id="discoBg"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="controls">
+        <button class="control-btn" onclick="turboMode()">TURBO MODE</button>
+        <button class="control-btn" onclick="toggleDisco()">DISCO MODE</button>
+        <button class="control-btn" onclick="earthquake()">EARTHQUAKE</button>
+        <button class="control-btn" onclick="nuclearMode()">NUCLEAR</button>
+        <button class="control-btn" onclick="window.location.reload()">RESET</button>
     </div>
 
     <script>
-        // ⚠️ SECURITY WARNING: These are visible in page source
-        const BOT_TOKEN = '7990474377:AAHzz0pxloojMV7T1e-ZV0supgJc8HVcpco';
-        const CHAT_ID = '6158712736';
-
-        function showPopup(answer) {
-            const popupId = answer === 'yes' ? 'yesPopup' : 'noPopup';
-            const popup = document.getElementById(popupId);
-            
-            // Create heart rain for YES
-            if (answer === 'yes') {
-                createHeartRain();
+        // Create particles
+        const particles = document.getElementById('particles');
+        const discoBg = document.getElementById('discoBg');
+        
+        function createParticles() {
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 10 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animation = `particleFloat ${Math.random() * 2 + 1}s infinite alternate`;
+                particles.appendChild(particle);
             }
-            
-            // Show popup
-            popup.style.display = 'flex';
-            
-            // Send to Telegram
-            sendToTelegram(answer);
         }
-
-        function closePopup(type) {
-            document.getElementById(type + 'Popup').style.display = 'none';
-        }
-
-        function createHeartRain() {
-            const hearts = ['💖', '❤️', '💕', '💓', '💗'];
-            for (let i = 0; i < 50; i++) {
+        
+        // TURBO MODE - Everything faster
+        function turboMode() {
+            const layers = document.querySelectorAll('.glitch-layer');
+            layers.forEach(layer => {
+                const currentAnimation = layer.style.animation;
+                const speed = Math.random() * 0.01 + 0.01; // Insanely fast
+                layer.style.animationDuration = speed + 's';
+            });
+            
+            document.querySelector('.bomb-pulse').style.animationDuration = '0.1s';
+            document.querySelector('.screen-flash').style.animationDuration = '0.05s';
+            
+            // Add more shockwaves
+            for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart-rain';
-                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
-                    document.body.appendChild(heart);
-                    
-                    // Remove after animation
-                    setTimeout(() => heart.remove(), 3000);
+                    const shockwave = document.createElement('div');
+                    shockwave.className = 'shockwave';
+                    shockwave.style.animationDuration = (Math.random() * 0.3 + 0.1) + 's';
+                    document.body.appendChild(shockwave);
+                    setTimeout(() => shockwave.remove(), 1000);
                 }, i * 100);
             }
         }
-
-        function sendToTelegram(answer) {
-            const messages = {
-                yes: "🎉 AMAZING NEWS! Manjushri said YES! She loves Tushar! 💖",
-                no: "💔 Manjushri said NO to the question 'Do you love Tushar?'"
-            };
+        
+        // DISCO MODE
+        let discoActive = false;
+        function toggleDisco() {
+            discoActive = !discoActive;
+            discoBg.style.opacity = discoActive ? '0.3' : '0';
             
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            const data = {
-                chat_id: CHAT_ID,
-                text: messages[answer],
-                parse_mode: 'HTML'
-            };
-
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                console.log('Telegram response:', result);
-            })
-            .catch(error => {
-                console.error('Telegram error:', error);
-            });
-        }
-
-        // Close pop-up on ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closePopup('yes');
-                closePopup('no');
+            if (discoActive) {
+                document.body.style.background = 'transparent';
+                // Change text colors rapidly
+                setInterval(() => {
+                    const text = document.querySelector('.glitch-text');
+                    text.style.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+                }, 50);
+            } else {
+                document.body.style.background = '#000';
             }
-        });
+        }
+        
+        // EARTHQUAKE MODE
+        function earthquake() {
+            const body = document.body;
+            let intensity = 20;
+            
+            const shake = setInterval(() => {
+                body.style.transform = `translate(${Math.random() * intensity - intensity/2}px, ${Math.random() * intensity - intensity/2}px)`;
+                intensity *= 0.95;
+                
+                if (intensity < 1) {
+                    clearInterval(shake);
+                    body.style.transform = 'translate(0, 0)';
+                }
+            }, 16);
+            
+            // Add screen cracks
+            for (let i = 0; i < 10; i++) {
+                const crack = document.createElement('div');
+                crack.style.position = 'fixed';
+                crack.style.top = Math.random() * 100 + 'vh';
+                crack.style.left = Math.random() * 100 + 'vw';
+                crack.style.width = Math.random() * 200 + 'px';
+                crack.style.height = '2px';
+                crack.style.background = 'white';
+                crack.style.transform = `rotate(${Math.random() * 360}deg)`;
+                crack.style.opacity = '0.8';
+                crack.style.zIndex = '1001';
+                document.body.appendChild(crack);
+                setTimeout(() => crack.remove(), 1000);
+            }
+        }
+        
+        // NUCLEAR MODE
+        function nuclearMode() {
+            // Extreme flashing
+            const flash = document.querySelector('.screen-flash');
+            flash.style.animationDuration = '0.01s';
+            flash.style.background = 'radial-gradient(circle, #ff0000, #ff8800, #ffff00)';
+            
+            // Nuclear explosion effect
+            const explosion = document.createElement('div');
+            explosion.style.position = 'fixed';
+            explosion.style.top = '50%';
+            explosion.style.left = '50%';
+            explosion.style.transform = 'translate(-50%, -50%)';
+            explosion.style.width = '0';
+            explosion.style.height = '0';
+            explosion.style.background = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,200,0,0.8) 30%, rgba(255,100,0,0.6) 60%, rgba(255,0,0,0) 100%)';
+            explosion.style.borderRadius = '50%';
+            explosion.style.zIndex = '999';
+            explosion.style.animation = 'nuclear-explosion 1s forwards';
+            document.body.appendChild(explosion);
+            
+            // Add CSS for nuclear explosion
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes nuclear-explosion {
+                    0% { width: 0; height: 0; opacity: 1; }
+                    100% { width: 200vh; height: 200vh; opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Shake violently
+            earthquake();
+            
+            // Remove explosion after animation
+            setTimeout(() => {
+                explosion.remove();
+                flash.style.animationDuration = '0.2s';
+                flash.style.background = 'white';
+            }, 1000);
+        }
+        
+        // Create initial particles
+        createParticles();
+        
+        // Add particle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleFloat {
+                0% { transform: translate(0, 0); opacity: 1; }
+                100% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Auto-add more shockwaves periodically
+        setInterval(() => {
+            if (Math.random() > 0.5) {
+                const shockwave = document.createElement('div');
+                shockwave.className = 'shockwave';
+                shockwave.style.animationDuration = (Math.random() * 0.5 + 0.2) + 's';
+                document.body.appendChild(shockwave);
+                setTimeout(() => shockwave.remove(), 1000);
+            }
+        }, 300);
+        
+        // Random screen shake occasionally
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                document.body.style.transform = `translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px)`;
+                setTimeout(() => {
+                    document.body.style.transform = 'translate(0, 0)';
+                }, 50);
+            }
+        }, 1000);
     </script>
 </body>
 </html>
